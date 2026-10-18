@@ -64,18 +64,25 @@ def view_students():
 def search_student():
     print("\n--- Search Student ---")
 
-    student_id = input("Enter student ID to search: ").strip()
+    keyword = input("Enter student ID or name to search: ").strip().lower()
 
-    for student in students:
-        if student["id"] == student_id:
-            print("\nStudent found:")
+    matches = [
+        student
+        for student in students
+        if keyword in student["id"].lower() or keyword in student["name"].lower()
+    ]
+
+    if matches:
+        print("\nStudents found:")
+
+        for student in matches:
             print(f"ID:     {student['id']}")
             print(f"Name:   {student['name']}")
             print(f"Age:    {student['age']}")
             print(f"Course: {student['course']}")
-            return
-
-    print("Student not found.")
+            print("-" * 25)
+    else:
+        print("No matching students found.")
 
 
 def update_student():
